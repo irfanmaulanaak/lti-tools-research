@@ -16,11 +16,11 @@ if (!$db_selected) {
 
 $db_connector = DataConnector\DataConnector::getDataConnector('', $db, "mysql");
 
-$consumer_key_1 = 'tes123';
+$consumer_key_1 = 'toolstest1';
 
 $consumer = new ToolProvider\ToolConsumer($consumer_key_1, $db_connector);
-$consumer->name = 'this is bravo 5';
-$consumer->secret = 'password';
+$consumer->name = 'toolstest1 LTI Tools';
+$consumer->secret = 'toolstest1secret';
 $consumer->enabled = TRUE;
 if ($consumer->save()) {
     echo 'Consumer saved successfully with ID: ' . $consumer->getRecordId();
