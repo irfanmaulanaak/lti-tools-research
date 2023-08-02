@@ -31,7 +31,6 @@ class ImsToolProvider extends ToolProvider\ToolProvider
         // Check the OAuth credentials (nonce, timestamp and signature)
         if ($ok) {
             try {
-                echo "ok1";
                 $consumer_key = $_POST['oauth_consumer_key'];
                 $store = new ImsOAuthDataStore($consumer_key, 'toolstest1secret');
                 $server = new OAuthServer($store);
@@ -43,7 +42,6 @@ class ImsToolProvider extends ToolProvider\ToolProvider
                 echo "<br>";
                 print_r($signature_key);
                 echo "<br>";
-                echo "ok2";
             } catch (Exception $e) {
                 $ok = FALSE;
             }
@@ -57,11 +55,15 @@ class ImsToolProvider extends ToolProvider\ToolProvider
 
             // Extract the username from the launch data
             $username = isset($launchData['lis_person_name_given']) ? $launchData['lis_person_name_given'] : '';
-            $resource_title = isset($launchData['resource_link_title']) ? $launchData['resource_link_title'] : '';
+            $resource_title = isset($launchData['resource_link_title']) ? urlencode($launchData['resource_link_title']) : '';
+            $oath_ckey = isset($launchData['oauth_consumer_key']) ? urlencode($launchData['oauth_consumer_key']) : '';
+            $roles = isset($launchData['roles']) ? urlencode($launchData['roles']) : '';
+            $fullname = isset($launchData['lis_person_name_full']) ? urlencode($launchData['lis_person_name_full']) : '';
+            $oath_sign = isset($launchData['oauth_signature']) ? ($launchData['oauth_signature']) : '';
 
             // Use the username
             echo "Hello, $username!. Welcome to $resource_title";
-            // print_r($launchData);
+            $deelpink = "udptest://?resourceTitle=" . $resource_title . "&oath_ckey=" . $oath_ckey . "&roles=" . $roles . "&fullname=" . $fullname . "&oath_sign=" . $oath_sign;
         }
     }
 }
@@ -120,4 +122,66 @@ if (!$db_selected) {
 $db_connector = DataConnector\DataConnector::getDataConnector('', $db, "mysql"); //need to specify the type of connector, in this case i use mysql not mysqli
 $tool = new ImsToolProvider($db_connector);
 $tool->onLaunch();
+
 // $tool->handleRequest();
+
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rick and Morty API Example</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Rick and Morty Characters</h1>
+        <div class="row" id="characterList">
+            <!-- Characters will be dynamically added here -->
+        </div>
+    </div>
+    <script>
+        // Function to fetch characters from the API and update the HTML
+        function fetchCharacters() {
+            $.ajax({
+                url: "https://rickandmortyapi.com/api/character/",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    // Clear previous data
+                    $("#characterList").empty();
+
+                    // Loop through characters and create HTML elements
+                    data.results.forEach(function(character) {
+                        var characterCard = `
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <img src="${character.image}" class="card-img-top" alt="${character.name}">
+                  <div class="card-body">
+                    <h5 class="card-title">${character.name}</h5>
+                    <p class="card-text">Status: ${character.status}</p>
+                    <p class="card-text">Species: ${character.species}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+                        $("#characterList").append(characterCard);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                }
+            });
+        }
+
+        // Load characters on page load
+        $(document).ready(function() {
+            fetchCharacters()
+            console.log("ready!");
+        });
+    </script>
+</body>
+
+</html>

@@ -348,12 +348,9 @@ class ToolProvider
     {
 
         if ($this->ok) {
-            // print_r($this);
             if ($this->authenticate()) {
                 $this->doCallback();
             }
-            // echo "-------------------------------------";
-            // print_r($this);
         }
         $this->result(); //NOTE: error memmory leak
     }
@@ -583,7 +580,6 @@ EOD;
      */
     private function doCallback($method = null)
     {
-
         $callback = $method;
         if (is_null($callback)) {
             $callback = self::$METHOD_NAMES[$_POST['lti_message_type']];
@@ -687,7 +683,6 @@ EOD;
         }
         if ($this->ok) {
             if ($_POST['lti_message_type'] === 'basic-lti-launch-request') {
-                print_r($this->ok);
                 $this->ok = isset($_POST['resource_link_id']) && (strlen(trim($_POST['resource_link_id'])) > 0);
                 if (!$this->ok) {
                     $this->reason = 'Missing resource link ID.';
