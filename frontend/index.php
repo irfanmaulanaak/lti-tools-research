@@ -13,13 +13,13 @@
   <body class="bg-gray-900">
     <header class="flex flex-row items-center justify-center">
       <ul class="flex flex-wrap text-sm font-medium text-center text-gray-400 border-gray-200 gap-4 my-4">
-        <li data-target="web-content" class="nav-item mr-2">
+        <li data-target="web-content" class="nav-item flex items-center justify-center">
             <a href="#" class="inline-block p-4 rounded-lg hover:text-gray-300 hover:bg-gray-800 focus:border-4 focus:border-gray-300">Web</a>
         </li>
-        <li data-target="android-content" class="nav-item mr-2">
+        <li data-target="android-content" class="nav-item flex items-center justify-center">
             <a href="#" class="inline-block p-4 rounded-lg hover:text-gray-300 hover:bg-gray-800 focus:border-4 focus:border-gray-300">Android</a>
         </li>
-        <li data-target="vr-content" class="nav-item mr-2">
+        <li data-target="vr-content" class="nav-item flex items-center justify-center">
             <a href="#" class="inline-block p-4 rounded-lg hover:text-gray-300 hover:bg-gray-800 focus:border-4 focus:border-gray-300">VR</a>
         </li>
       </ul>
