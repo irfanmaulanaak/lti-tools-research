@@ -64,6 +64,15 @@ class ImsToolProvider extends ToolProvider\ToolProvider
             // Use the username
             echo "Hello, $username!. Welcome to $resource_title";
             $deelpink = "udptest://?resourceTitle=" . $resource_title . "&oath_ckey=" . $oath_ckey . "&roles=" . $roles . "&fullname=" . $fullname . "&oath_sign=" . $oath_sign;
+        
+            $deelpink_web = "web_" . $deelpink;
+
+            $deelpink_android = "android_" . $deelpink;
+
+            $deelpink_vr = "vr_" . $deelpink;
+
+            include "frontend/index.php";
+
         }
     }
 }
@@ -126,62 +135,3 @@ $tool->onLaunch();
 // $tool->handleRequest();
 
 ?>
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Rick and Morty API Example</title>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Rick and Morty Characters</h1>
-        <div class="row" id="characterList">
-            <!-- Characters will be dynamically added here -->
-        </div>
-    </div>
-    <script>
-        // Function to fetch characters from the API and update the HTML
-        function fetchCharacters() {
-            $.ajax({
-                url: "https://rickandmortyapi.com/api/character/",
-                type: "GET",
-                dataType: "json",
-                success: function(data) {
-                    // Clear previous data
-                    $("#characterList").empty();
-
-                    // Loop through characters and create HTML elements
-                    data.results.forEach(function(character) {
-                        var characterCard = `
-              <div class="col-md-4 mb-3">
-                <div class="card">
-                  <img src="${character.image}" class="card-img-top" alt="${character.name}">
-                  <div class="card-body">
-                    <h5 class="card-title">${character.name}</h5>
-                    <p class="card-text">Status: ${character.status}</p>
-                    <p class="card-text">Species: ${character.species}</p>
-                  </div>
-                </div>
-              </div>
-            `;
-                        $("#characterList").append(characterCard);
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error fetching data:", error);
-                }
-            });
-        }
-
-        // Load characters on page load
-        $(document).ready(function() {
-            fetchCharacters()
-            console.log("ready!");
-        });
-    </script>
-</body>
-
-</html>
