@@ -65,11 +65,11 @@ class ImsToolProvider extends ToolProvider\ToolProvider
             echo "Hello, $username!. Welcome to $resource_title";
             $deelpink = "udptest://?resourceTitle=" . $resource_title . "&oath_ckey=" . $oath_ckey . "&roles=" . $roles . "&fullname=" . $fullname . "&oath_sign=" . $oath_sign;
         
-            $deelpink_web = "web_" . $deelpink;
+            $deelpink_web = $deelpink;
 
-            $deelpink_android = "android_" . $deelpink;
+            $deelpink_android = $deelpink;
 
-            $deelpink_vr = "vr_" . $deelpink;
+            $deelpink_vr = $deelpink;
 
             include "frontend/index.php";
 
