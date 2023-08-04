@@ -63,13 +63,13 @@ class ImsToolProvider extends ToolProvider\ToolProvider
 
             // Use the username
             echo "Hello, $username!. Welcome to $resource_title";
-            $deelpink = "udptest://?resourceTitle=" . $resource_title . "&oath_ckey=" . $oath_ckey . "&roles=" . $roles . "&fullname=" . $fullname . "&oath_sign=" . $oath_sign;
+            $deeplink = "udptest://?resourceTitle=" . $resource_title . "&oath_ckey=" . $oath_ckey . "&roles=" . $roles . "&fullname=" . $fullname . "&oath_sign=" . $oath_sign;
         
-            $deelpink_web = $deelpink;
+            $deeplink_desktop = $deeplink;
 
-            $deelpink_android = $deelpink;
+            $deeplink_android = $deeplink;
 
-            $deelpink_vr = $deelpink;
+            $deeplink_vr = $deeplink;
 
             include "frontend/index.php";
 
