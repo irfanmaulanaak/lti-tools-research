@@ -120,7 +120,7 @@ $_SESSION = array();
 session_destroy();
 session_start();
 
-$db = mysql_connect("localhost:3307", "root", "");
+$db = mysql_connect("localhost:3306", "root", "");
 if (!$db) {
     die('Not connected : ' . mysql_error());
 }
