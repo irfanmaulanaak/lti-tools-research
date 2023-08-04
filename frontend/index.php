@@ -33,7 +33,7 @@
             <div class="mb-4">
               <p>This is the content for the Desktop page. Click the link below to redirect to spacecollab desktop app</p>
             </div>
-            <a class="p-4 py-2 bg-gray-800 cursor-pointer border rounded-lg" href="<?php echo $deeplink_dekstop ?>" target="_blank">Deep Link</a>
+            <a class="p-4 py-2 bg-gray-800 cursor-pointer border rounded-lg" href="<?php echo $deeplink_desktop ?>" target="_blank">Deep Link</a>
           </div>
         </div>
         <div class="content-div hidden" id="android-content">
