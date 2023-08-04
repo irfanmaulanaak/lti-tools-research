@@ -14,7 +14,7 @@
     <header class="flex flex-row items-center justify-center">
       <ul class="flex flex-wrap text-sm font-medium text-center text-gray-400 border-gray-200 gap-4 my-4">
         <li data-target="web-content" class="nav-item flex items-center justify-center">
-            <a href="#" class="inline-block p-4 rounded-lg hover:text-gray-300 hover:bg-gray-800 focus:border-4 focus:border-gray-300">Web</a>
+            <a href="#" class="inline-block p-4 rounded-lg hover:text-gray-300 hover:bg-gray-800 focus:border-4 focus:border-gray-300">Desktop</a>
         </li>
         <li data-target="android-content" class="nav-item flex items-center justify-center">
             <a href="#" class="inline-block p-4 rounded-lg hover:text-gray-300 hover:bg-gray-800 focus:border-4 focus:border-gray-300">Android</a>
@@ -26,14 +26,14 @@
     </header>
     <main class="flex flex-col items-center justify-center w-full h-full" >
       <div class="container py-8 px-4 text-gray-300">
-        <div class="content-div hidden" id="web-content">
+        <div class="content-div hidden" id="desktop-content">
           <!-- Home Content -->
           <div class="flex flex-col items-center gap-2">
-            <h2 class="text-2xl">Web SpaceCollab</h2>
+            <h2 class="text-2xl">SpaceCollab Desktop App</h2>
             <div class="mb-4">
-              <p>This is the content for the Web page. Click the link below to redirect to spacecollab</p>
+              <p>This is the content for the Desktop page. Click the link below to redirect to spacecollab desktop app</p>
             </div>
-            <a class="p-4 py-2 bg-gray-800 cursor-pointer border rounded-lg" href="<?php echo $deelpink_web ?>" target="_blank">Deep Link</a>
+            <a class="p-4 py-2 bg-gray-800 cursor-pointer border rounded-lg" href="<?php echo $deelpink_dekstop ?>" target="_blank">Deep Link</a>
           </div>
         </div>
         <div class="content-div hidden" id="android-content">
