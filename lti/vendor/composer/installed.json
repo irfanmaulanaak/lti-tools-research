@@ -1,0 +1,56 @@
+{
+    "packages": [
+        {
+            "name": "izumi-kun/lti",
+            "version": "1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Izumi-kun/LTI-Tool-Provider-Library-PHP.git",
+                "reference": "70640c7082e9cdad21152995c56fc5efb01280d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Izumi-kun/LTI-Tool-Provider-Library-PHP/zipball/70640c7082e9cdad21152995c56fc5efb01280d8",
+                "reference": "70640c7082e9cdad21152995c56fc5efb01280d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "imsglobal/lti": "3.0.2"
+            },
+            "time": "2019-11-29T06:25:58+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "IMSGlobal\\LTI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Vickers",
+                    "email": "svickers@imsglobal.org"
+                }
+            ],
+            "description": "LTI Tool Provider Library",
+            "homepage": "https://www.imsglobal.org/lti",
+            "keywords": [
+                "LTI"
+            ],
+            "support": {
+                "issues": "https://github.com/Izumi-kun/LTI-Tool-Provider-Library-PHP/issues",
+                "source": "https://github.com/Izumi-kun/LTI-Tool-Provider-Library-PHP/tree/1.2.0"
+            },
+            "install-path": "../izumi-kun/lti"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

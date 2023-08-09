@@ -1,0 +1,5 @@
+{
+    "require": {
+        "izumi-kun/lti": "^1.2"
+    }
+}
