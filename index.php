@@ -9,12 +9,14 @@ use IMSGlobal\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 use  IMSGlobal\LTI\OAuth\OAuthDataStore;
 use IMSGlobal\LTI\OAuth\OAuthToken;
 use IMSGlobal\LTI\OAuth\OAuthServer;
+use IMSGlobal\LTI\ToolProvider\ResourceLink;
 
 class ImsToolProvider extends ToolProvider\ToolProvider
 {
     function onLaunch()
     {
-        $tool_consumer_secrets['toolstest1'] = 'toolstest1!';
+
+        $tool_consumer_secrets['ltitoolsgcp1'] = 'ltitoolsgcp1';
         $ok = true;
         // Check it is a POST request
         $ok = $ok && $_SERVER['REQUEST_METHOD'] === 'POST';
@@ -32,16 +34,13 @@ class ImsToolProvider extends ToolProvider\ToolProvider
         if ($ok) {
             try {
                 $consumer_key = $_POST['oauth_consumer_key'];
-                $store = new ImsOAuthDataStore($consumer_key, 'toolstest1secret');
+                $store = new ImsOAuthDataStore($consumer_key, $tool_consumer_secrets['ltitoolsgcp1']);
                 $server = new OAuthServer($store);
                 $method = new OAuthSignatureMethod_HMAC_SHA1();
                 $server->add_signature_method($method);
                 $request = OAuthRequest::from_request();
                 $signature_key = $method->build_signature($request, $store->lookup_consumer($consumer_key), $store->lookup_token($consumer_key, '', ''));
                 $server->verify_request($request);
-                echo "<br>";
-                print_r($signature_key);
-                echo "<br>";
             } catch (Exception $e) {
                 $ok = FALSE;
             }
@@ -52,6 +51,32 @@ class ImsToolProvider extends ToolProvider\ToolProvider
 
             // Get the raw payload data from the request body
             $launchData = $_POST;
+            $consumer = new ToolProvider\ToolConsumer($launchData['oauth_consumer_key'], $_SESSION['db_connector']);
+            $consumer->name = $_POST['tool_consumer_instance_name'];
+            $consumer->secret = $tool_consumer_secrets['ltitoolsgcp1'];
+            $consumer->ltiVersion = $_POST['lti_version'];
+            $consumer->enabled = TRUE;
+            $consumer->save();
+
+            $resource_link = ToolProvider\ResourceLink::fromConsumer($consumer, $_POST['resource_link_id']);
+            $resource_link->setSetting('lis_outcome_service_url', $_POST['lis_outcome_service_url']);
+
+            $user = ToolProvider\User::fromResourceLink($resource_link, $launchData['user_id']);
+            $score = "0.80";
+            $outcome = new ToolProvider\Outcome($score);
+            $ok = $resource_link->doOutcomesService(ResourceLink::EXT_WRITE, $outcome, $user);
+            if ($ok) {
+                echo "<script type='text/javascript'>console.log('it's gonne be alright');</script>";
+            }
+
+
+            $outcome2 = new ToolProvider\Outcome();
+
+            if ($resource_link->doOutcomesService(ToolProvider\ResourceLink::EXT_READ, $outcome2, $user)) {
+                $_SESSION['score2'] = $outcome2->getValue();
+                $session_read = $_SESSION['score2'];
+                echo "<script type='text/javascript'>console.log('do: $session_read');</script>";
+            }
 
             // Extract the username from the launch data
             $username = isset($launchData['lis_person_name_given']) ? $launchData['lis_person_name_given'] : '';
@@ -64,15 +89,10 @@ class ImsToolProvider extends ToolProvider\ToolProvider
             // Use the username
             echo "Hello, $username!. Welcome to $resource_title";
             $deeplink = "udptest://?resourceTitle=" . $resource_title . "&oath_ckey=" . $oath_ckey . "&roles=" . $roles . "&fullname=" . $fullname . "&oath_sign=" . $oath_sign;
-        
             $deeplink_desktop = $deeplink;
-
             $deeplink_android = $deeplink;
-
             $deeplink_vr = $deeplink;
-
             include "frontend/index.php";
-
         }
     }
 }
@@ -120,7 +140,8 @@ $_SESSION = array();
 session_destroy();
 session_start();
 
-$db = mysql_connect("localhost:3306", "root", "");
+
+$db = mysql_connect("localhost:3307", "root", "");
 if (!$db) {
     die('Not connected : ' . mysql_error());
 }
@@ -129,9 +150,9 @@ if (!$db_selected) {
     die('Can\'t use ltitools : ' . mysql_error());
 }
 $db_connector = DataConnector\DataConnector::getDataConnector('', $db, "mysql"); //need to specify the type of connector, in this case i use mysql not mysqli
+$_SESSION['db_connector'] = $db_connector;
 $tool = new ImsToolProvider($db_connector);
+
 $tool->onLaunch();
 
 // $tool->handleRequest();
-
-?>
