@@ -44,6 +44,9 @@ class ImsToolProvider extends ToolProvider\ToolProvider
             } catch (Exception $e) {
                 $ok = FALSE;
             }
+        } else {
+            include "frontend/error.php";
+            exit;
         }
 
         // Check if the request method is POST or PUT (you can add other methods as needed)
@@ -58,25 +61,35 @@ class ImsToolProvider extends ToolProvider\ToolProvider
             $consumer->enabled = TRUE;
             $consumer->save();
 
+            echo "<script>console.log(JSON.parse('" . json_encode($consumer) . "'));</script>";
+
             $resource_link = ToolProvider\ResourceLink::fromConsumer($consumer, $_POST['resource_link_id']);
             $resource_link->setSetting('lis_outcome_service_url', $_POST['lis_outcome_service_url']);
 
+            // echo "<script>console.log(JSON.parse('" . json_encode($resource_link) . "'));</script>";
+
             $user = ToolProvider\User::fromResourceLink($resource_link, $launchData['user_id']);
-            $score = "0.80";
+            $score = "1";
             $outcome = new ToolProvider\Outcome($score);
+
+
+
             $ok = $resource_link->doOutcomesService(ResourceLink::EXT_WRITE, $outcome, $user);
-            if ($ok) {
-                echo "<script type='text/javascript'>console.log('it's gonne be alright');</script>";
-            }
+
+            // print_r($_POST);
+
+            $tessto = json_encode($_POST);
+
+            echo "<script type='text/javascript'>console.log('kon_kuda', '$tessto');</script>";
+            // echo "<script type='text/javascript'>console.log('kon_sapi');</script>";
 
 
-            $outcome2 = new ToolProvider\Outcome();
+            // $outcome2 = new ToolProvider\Outcome();
 
-            if ($resource_link->doOutcomesService(ToolProvider\ResourceLink::EXT_READ, $outcome2, $user)) {
-                $_SESSION['score2'] = $outcome2->getValue();
-                $session_read = $_SESSION['score2'];
-                echo "<script type='text/javascript'>console.log('do: $session_read');</script>";
-            }
+            // if ($resource_link->doOutcomesService(ToolProvider\ResourceLink::EXT_READ, $outcome2, $user)) {
+            //     $_SESSION['score2'] = $outcome2->getValue();
+            //     echo "<script type='text/javascript'>console.log('dooman');</script>";
+            // }
 
             // Extract the username from the launch data
             $username = isset($launchData['lis_person_name_given']) ? $launchData['lis_person_name_given'] : '';
